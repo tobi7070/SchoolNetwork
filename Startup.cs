@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,25 +20,34 @@ namespace SchoolNetwork
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<InMemoryContext>(config =>
+            services.AddDbContext<InMemoryContext>(options =>
             {
-                config.UseInMemoryDatabase("Memory");
+                options.UseInMemoryDatabase("Memory");
             });
 
-            services.AddIdentity<IdentityUser, IdentityRole>(config =>
-            {
-                config.Password.RequiredLength = 4;
-                config.Password.RequireDigit = false;
-                config.Password.RequireNonAlphanumeric = false;
-                config.Password.RequireUppercase = false;
-            })
+            services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<InMemoryContext>()
                 .AddDefaultTokenProviders();
 
-            services.ConfigureApplicationCookie(config =>
+            services.Configure<IdentityOptions>(options =>
             {
-                config.Cookie.Name = "Identity";
-                config.LoginPath = "/Home/Login";
+                // User settings
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                options.User.RequireUniqueEmail = false;
+
+                // Password settings
+                options.Password.RequiredLength = 4;
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.SignIn.RequireConfirmedEmail = true;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.Name = "Identity";
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
             });
 
             services.AddMvc();

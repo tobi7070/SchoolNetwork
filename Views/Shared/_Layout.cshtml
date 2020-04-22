@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -12,9 +16,16 @@
                 <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                 <li><a asp-area="" asp-controller="Home" asp-action="Secret">Secret</a></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="Register">Register</a></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="Login">Login</a></li>
-                <li><a asp-area="" asp-controller="Home" asp-action="Logout">Logout</a></li>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <li>Hello @UserManager.GetUserName(User)!</li>
+                    <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                }
+                else
+                {
+                    <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
+                    <li><a asp-area="" asp-controller="Account" asp-action="Login">Login</a></li>
+                }
             </ul>
         </nav>
     </header>
