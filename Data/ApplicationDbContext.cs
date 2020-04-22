@@ -26,7 +26,7 @@ namespace SchoolNetwork.Data
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
             });
-            
+
             modelBuilder.Entity<ApplicationRole>(b =>
             {
                 b.HasMany(e => e.UserRoles)
