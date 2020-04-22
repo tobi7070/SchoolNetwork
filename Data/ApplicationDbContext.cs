@@ -36,10 +36,10 @@ namespace SchoolNetwork.Data
                     .IsRequired();
             });
 
-            ApplicationUser User1 = new ApplicationUser { Id = 1, UserName = "JohnDoe", EmailConfirmed = true, FirstMidName = "John", LastName = "Doe" };
+            ApplicationUser User1 = new ApplicationUser { Id = 1, UserName = "JohnDoe", EmailConfirmed = true, FirstMidName = "John", LastName = "Doe", SecurityStamp = Guid.NewGuid().ToString("D") };
             User1.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(User1, "qwerty");
-            ApplicationUser User2 = new ApplicationUser { Id = 2, UserName = "JaneDoe", EmailConfirmed = true, FirstMidName = "Jane", LastName = "Doe" };
-            User1.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(User1, "password");
+            ApplicationUser User2 = new ApplicationUser { Id = 2, UserName = "JaneDoe", EmailConfirmed = true, FirstMidName = "Jane", LastName = "Doe", SecurityStamp = Guid.NewGuid().ToString("D") };
+            User2.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(User2, "iloveyou");
             modelBuilder.Entity<ApplicationUser>().HasData(User1, User2);
 
             modelBuilder.Entity<ApplicationRole>().HasData(
