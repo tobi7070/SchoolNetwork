@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SchoolNetwork.Data;
+using SchoolNetwork.Models;
 
 namespace SchoolNetwork
 {
@@ -20,13 +21,13 @@ namespace SchoolNetwork
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<InMemoryContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseInMemoryDatabase("Memory");
             });
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
-                .AddEntityFrameworkStores<InMemoryContext>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             services.Configure<IdentityOptions>(options =>
