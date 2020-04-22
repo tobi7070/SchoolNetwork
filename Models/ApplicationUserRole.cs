@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SchoolNetwork.Models
 {
-    public class ApplicationUser : IdentityUser<int>
+    public class ApplicationUserRole : IdentityUserRole<int>
     {
-        public string CustomTag { get; set; }
-        public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
+        public virtual ApplicationUser User { get; set; }
+        public virtual ApplicationRole Role { get; set; }
     }
 }
