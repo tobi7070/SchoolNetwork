@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SchoolNetwork.Migrations
 {
-    public partial class TestSetup : Migration
+    public partial class InitialSetup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -398,8 +398,8 @@ namespace SchoolNetwork.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "96306cc6-f3e2-455e-9505-cd8b3dedee88", "A role for students", "Student", "STUDENT" },
-                    { 2, "41563f07-c95c-47c3-b0db-6fe9dc85a3c5", "A role for instructors", "Instructor", "INSTRUCTOR" }
+                    { 1, "ce2de1cd-2c27-48b0-b716-741d68541dd2", "A role for students", "Student", "STUDENT" },
+                    { 2, "6c5d0ee2-49b9-4e52-a444-3b94cf22ea31", "A role for instructors", "Instructor", "INSTRUCTOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -407,19 +407,36 @@ namespace SchoolNetwork.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstMidName", "JoinDate", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "bb922155-68a7-4de0-bfa2-a94ca6fccf0d", null, true, "John", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAECewb5dDd02nDxCXelrD7hlonZMgogKZSUASCjnBVrLXW0MsSjaS1eyK1ERT5FwIGA==", null, false, "a76f25d1-a76d-43ac-8e8b-7df45b9403c0", false, "JohnDoe" },
-                    { 2, 0, "82a2bba0-5877-4c59-a48b-11eb4ee8d9ec", null, true, "Jane", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAEEMT3TSEGqb7PwywjCx2ip2TSO/aw0yf+JpC+yNPozdXmMVCnynaw+5sU5rs6pWOxw==", null, false, "7a40109c-86d4-4096-a5b1-2dc8d99c9107", false, "JaneDoe" }
+                    { 1, 0, "668d0409-5d7d-4699-a109-84313057b6fd", null, true, "John", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAEOdnNATrN7VWaMWiDGk2Zdya8GgYMbZShsKtYw8cDAHC+Ooco1nsfccEcDxzvvqHLg==", null, false, "6c61c320-8ef5-4c6c-a98b-985ed6c63596", false, "JohnDoe" },
+                    { 2, 0, "2173abdb-0d82-478b-a902-646f1775a5be", null, true, "Jane", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAEG9T7gQskuiNmlehGwMDz7Bp4PKxQR3qlXoTAxflIiFVl3hxVMDRpOZGMiRRR4Mvew==", null, false, "51859841-1a1e-4473-a5ca-b14c7fd5ef2c", false, "JaneDoe" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Course",
+                columns: new[] { "CourseID", "Credits", "Title" },
+                values: new object[,]
+                {
+                    { 1, 10, "Mathmatics" },
+                    { 2, 8, "Physics" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "UserId", "RoleId", "Discriminator" },
-                values: new object[] { 1, 2, "ApplicationUserRole" });
+                values: new object[,]
+                {
+                    { 1, 2, "ApplicationUserRole" },
+                    { 2, 1, "ApplicationUserRole" }
+                });
 
             migrationBuilder.InsertData(
-                table: "AspNetUserRoles",
-                columns: new[] { "UserId", "RoleId", "Discriminator" },
-                values: new object[] { 2, 1, "ApplicationUserRole" });
+                table: "Assignment",
+                columns: new[] { "AssignmentID", "ApplicationUserID", "CourseID", "Title", "Value" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, "Linear Algebra", 0 },
+                    { 2, 1, 2, "Magnetic Force", 0 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answer_QuestionID",

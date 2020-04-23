@@ -84,6 +84,37 @@ namespace SchoolNetwork.Data
                 new ApplicationUserRole { RoleId = 2, UserId = 1 }
             );
 
+            modelBuilder.Entity<Course>().HasData(
+                new Course
+                {
+                    CourseID = 1,
+                    Title = "Mathmatics",
+                    Credits = 10
+                },
+                new Course
+                {
+                    CourseID = 2,
+                    Title = "Physics",
+                    Credits = 8
+                }
+            );
+            
+            modelBuilder.Entity<Assignment>().HasData(
+                new Assignment
+                {
+                    AssignmentID = 1,
+                    ApplicationUserID = 1,
+                    CourseID = 1,
+                    Title = "Linear Algebra"
+                },
+                new Assignment
+                {
+                    AssignmentID = 2,
+                    ApplicationUserID = 1,
+                    CourseID = 2,
+                    Title = "Magnetic Force"
+                }
+            );
         }
     }
 }

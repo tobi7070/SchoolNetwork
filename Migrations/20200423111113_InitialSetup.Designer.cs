@@ -10,8 +10,8 @@ using SchoolNetwork.Data;
 namespace SchoolNetwork.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200423091831_TestSetup")]
-    partial class TestSetup
+    [Migration("20200423111113_InitialSetup")]
+    partial class InitialSetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -184,7 +184,7 @@ namespace SchoolNetwork.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "96306cc6-f3e2-455e-9505-cd8b3dedee88",
+                            ConcurrencyStamp = "ce2de1cd-2c27-48b0-b716-741d68541dd2",
                             Description = "A role for students",
                             Name = "Student",
                             NormalizedName = "STUDENT"
@@ -192,7 +192,7 @@ namespace SchoolNetwork.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "41563f07-c95c-47c3-b0db-6fe9dc85a3c5",
+                            ConcurrencyStamp = "6c5d0ee2-49b9-4e52-a444-3b94cf22ea31",
                             Description = "A role for instructors",
                             Name = "Instructor",
                             NormalizedName = "INSTRUCTOR"
@@ -279,15 +279,15 @@ namespace SchoolNetwork.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bb922155-68a7-4de0-bfa2-a94ca6fccf0d",
+                            ConcurrencyStamp = "668d0409-5d7d-4699-a109-84313057b6fd",
                             EmailConfirmed = true,
                             FirstMidName = "John",
                             JoinDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastName = "Doe",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAECewb5dDd02nDxCXelrD7hlonZMgogKZSUASCjnBVrLXW0MsSjaS1eyK1ERT5FwIGA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOdnNATrN7VWaMWiDGk2Zdya8GgYMbZShsKtYw8cDAHC+Ooco1nsfccEcDxzvvqHLg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a76f25d1-a76d-43ac-8e8b-7df45b9403c0",
+                            SecurityStamp = "6c61c320-8ef5-4c6c-a98b-985ed6c63596",
                             TwoFactorEnabled = false,
                             UserName = "JohnDoe"
                         },
@@ -295,15 +295,15 @@ namespace SchoolNetwork.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "82a2bba0-5877-4c59-a48b-11eb4ee8d9ec",
+                            ConcurrencyStamp = "2173abdb-0d82-478b-a902-646f1775a5be",
                             EmailConfirmed = true,
                             FirstMidName = "Jane",
                             JoinDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastName = "Doe",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEEMT3TSEGqb7PwywjCx2ip2TSO/aw0yf+JpC+yNPozdXmMVCnynaw+5sU5rs6pWOxw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG9T7gQskuiNmlehGwMDz7Bp4PKxQR3qlXoTAxflIiFVl3hxVMDRpOZGMiRRR4Mvew==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7a40109c-86d4-4096-a5b1-2dc8d99c9107",
+                            SecurityStamp = "51859841-1a1e-4473-a5ca-b14c7fd5ef2c",
                             TwoFactorEnabled = false,
                             UserName = "JaneDoe"
                         });
@@ -335,6 +335,24 @@ namespace SchoolNetwork.Migrations
                     b.HasIndex("CourseID");
 
                     b.ToTable("Assignment");
+
+                    b.HasData(
+                        new
+                        {
+                            AssignmentID = 1,
+                            ApplicationUserID = 1,
+                            CourseID = 1,
+                            Title = "Linear Algebra",
+                            Value = 0
+                        },
+                        new
+                        {
+                            AssignmentID = 2,
+                            ApplicationUserID = 1,
+                            CourseID = 2,
+                            Title = "Magnetic Force",
+                            Value = 0
+                        });
                 });
 
             modelBuilder.Entity("SchoolNetwork.Models.Choice", b =>
@@ -380,6 +398,20 @@ namespace SchoolNetwork.Migrations
                     b.HasKey("CourseID");
 
                     b.ToTable("Course");
+
+                    b.HasData(
+                        new
+                        {
+                            CourseID = 1,
+                            Credits = 10,
+                            Title = "Mathmatics"
+                        },
+                        new
+                        {
+                            CourseID = 2,
+                            Credits = 8,
+                            Title = "Physics"
+                        });
                 });
 
             modelBuilder.Entity("SchoolNetwork.Models.Enrollment", b =>
