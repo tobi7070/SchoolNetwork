@@ -15,7 +15,7 @@ namespace SchoolNetwork.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Student")]
+        [Authorize(Roles = "Instructor")]
         public IActionResult Secret()
         {
             return View();

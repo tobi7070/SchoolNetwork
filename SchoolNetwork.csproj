@@ -11,6 +11,24 @@
     <Compile Remove="Migrations\20200422113201_SchoolNetworkTest.Designer.cs" />
     <Compile Remove="Migrations\20200422113538_SchoolNetworkTest.cs" />
     <Compile Remove="Migrations\20200422113538_SchoolNetworkTest.Designer.cs" />
+    <Compile Remove="Migrations\20200423080000_TestSetup.cs" />
+    <Compile Remove="Migrations\20200423080000_TestSetup.Designer.cs" />
+    <Compile Remove="Migrations\20200423080136_TestSetup.cs" />
+    <Compile Remove="Migrations\20200423080136_TestSetup.Designer.cs" />
+    <Compile Remove="Migrations\20200423081247_TestSetup.cs" />
+    <Compile Remove="Migrations\20200423081247_TestSetup.Designer.cs" />
+    <Compile Remove="Migrations\20200423082700_TestSetup.cs" />
+    <Compile Remove="Migrations\20200423082700_TestSetup.Designer.cs" />
+    <Compile Remove="Migrations\20200423084317_TestSetup.cs" />
+    <Compile Remove="Migrations\20200423084317_TestSetup.Designer.cs" />
+    <Compile Remove="Migrations\20200423090016_TestSetup.cs" />
+    <Compile Remove="Migrations\20200423090016_TestSetup.Designer.cs" />
+    <Compile Remove="Migrations\20200423090331_TestSetup.cs" />
+    <Compile Remove="Migrations\20200423090331_TestSetup.Designer.cs" />
+    <Compile Remove="Migrations\20200423091011_TestSetup.cs" />
+    <Compile Remove="Migrations\20200423091011_TestSetup.Designer.cs" />
+    <Compile Remove="Migrations\20200423091337_TestSetup.cs" />
+    <Compile Remove="Migrations\20200423091337_TestSetup.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +36,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3">
       <PrivateAssets>all</PrivateAssets>

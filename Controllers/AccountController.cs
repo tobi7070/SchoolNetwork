@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SchoolNetwork.Models;
@@ -31,21 +32,25 @@ namespace SchoolNetwork.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(string username, string password)
+        public async Task<IActionResult> Register(ApplicationUserViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
                 {
-                    UserName = username,
-                    Email = "",
+                    FirstMidName = model.FirstMidName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    UserName = model.UserName,
                 };
-                var regsiterResult = await _userManager.CreateAsync(user, password);
+
+                var regsiterResult = await _userManager.CreateAsync(user, model.Password);
+                var roleResult = await _userManager.AddToRoleAsync(user, model.Role.ToString());
 
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 // code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-                if (regsiterResult.Succeeded)
+                if (regsiterResult.Succeeded && roleResult.Succeeded)
                 {
                     var callbackUrl = Url.Action(
                         action: nameof(ConfirmEmail),
@@ -57,17 +62,16 @@ namespace SchoolNetwork.Controllers
                     var emailSender = HtmlEncoder.Default.Encode(callbackUrl);
                     TempData["_emailSender"] = callbackUrl;
 
-                    var signInResult = await _signInManager.PasswordSignInAsync(username, password, false, false);
+                    var signInResult = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
 
                     if (signInResult.Succeeded)
                     {
                         return RedirectToAction("Index");
                     }
-
                     return RedirectToAction("EmailConfirmation");
                 }
             }
-            return RedirectToAction("Register");
+            return View(model);
         }
 
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
@@ -102,25 +106,30 @@ namespace SchoolNetwork.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string username, string password)
         {
-            var user = await _userManager.FindByNameAsync(username);
-
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                var signInResult = await _signInManager.PasswordSignInAsync(username, password, false, false);
-
-                if (signInResult.Succeeded)
+                if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
                 {
-                    return RedirectToAction("Index");
-                }
+                    var result = await _signInManager.PasswordSignInAsync(username, password, true, false);
 
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
             }
-            return RedirectToAction("Index");
+            return View();
         }
 
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

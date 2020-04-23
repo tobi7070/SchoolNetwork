@@ -10,6 +10,17 @@ namespace SchoolNetwork.Models
     {
         public string FirstMidName { get; set; }
         public string LastName { get; set; }
+        public string FullName
+        {
+            get
+            {
+                return LastName + ", " + FirstMidName;
+            }
+        }
+
+        public DateTime JoinDate { get; set; }
+        public ICollection<Assignment> Assignments { get; set; }
+        public ICollection<Enrollment> Enrollments { get; set; }
         public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
     }
 }
