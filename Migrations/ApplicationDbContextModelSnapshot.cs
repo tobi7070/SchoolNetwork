@@ -140,11 +140,96 @@ namespace SchoolNetwork.Migrations
                     b.Property<bool>("Value")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
                     b.HasKey("AnswerID");
 
                     b.HasIndex("QuestionID");
 
                     b.ToTable("Answer");
+
+                    b.HasData(
+                        new
+                        {
+                            AnswerID = 1,
+                            QuestionID = 1,
+                            Title = "Something something",
+                            Value = true,
+                            isDeleted = false
+                        },
+                        new
+                        {
+                            AnswerID = 2,
+                            QuestionID = 1,
+                            Title = "Something something",
+                            Value = false,
+                            isDeleted = false
+                        },
+                        new
+                        {
+                            AnswerID = 3,
+                            QuestionID = 2,
+                            Title = "Something something",
+                            Value = false,
+                            isDeleted = false
+                        },
+                        new
+                        {
+                            AnswerID = 4,
+                            QuestionID = 2,
+                            Title = "Something something",
+                            Value = true,
+                            isDeleted = false
+                        },
+                        new
+                        {
+                            AnswerID = 5,
+                            QuestionID = 3,
+                            Title = "Something something",
+                            Value = true,
+                            isDeleted = false
+                        },
+                        new
+                        {
+                            AnswerID = 6,
+                            QuestionID = 3,
+                            Title = "Something something",
+                            Value = false,
+                            isDeleted = false
+                        },
+                        new
+                        {
+                            AnswerID = 7,
+                            QuestionID = 4,
+                            Title = "Something something",
+                            Value = false,
+                            isDeleted = false
+                        },
+                        new
+                        {
+                            AnswerID = 8,
+                            QuestionID = 4,
+                            Title = "Something something",
+                            Value = true,
+                            isDeleted = false
+                        },
+                        new
+                        {
+                            AnswerID = 9,
+                            QuestionID = 5,
+                            Title = "Something something",
+                            Value = true,
+                            isDeleted = false
+                        },
+                        new
+                        {
+                            AnswerID = 10,
+                            QuestionID = 5,
+                            Title = "Something something",
+                            Value = false,
+                            isDeleted = false
+                        });
                 });
 
             modelBuilder.Entity("SchoolNetwork.Models.ApplicationRole", b =>
@@ -182,7 +267,7 @@ namespace SchoolNetwork.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "ce2de1cd-2c27-48b0-b716-741d68541dd2",
+                            ConcurrencyStamp = "b5e910a0-449f-47b1-9e48-81ea8af413c3",
                             Description = "A role for students",
                             Name = "Student",
                             NormalizedName = "STUDENT"
@@ -190,7 +275,7 @@ namespace SchoolNetwork.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "6c5d0ee2-49b9-4e52-a444-3b94cf22ea31",
+                            ConcurrencyStamp = "2f90bf90-872b-4c90-9fa7-d3a589b198f3",
                             Description = "A role for instructors",
                             Name = "Instructor",
                             NormalizedName = "INSTRUCTOR"
@@ -277,15 +362,15 @@ namespace SchoolNetwork.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "668d0409-5d7d-4699-a109-84313057b6fd",
+                            ConcurrencyStamp = "1e5dbf0b-52bc-4c34-b188-2a41e0171e6d",
                             EmailConfirmed = true,
                             FirstMidName = "John",
                             JoinDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastName = "Doe",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEOdnNATrN7VWaMWiDGk2Zdya8GgYMbZShsKtYw8cDAHC+Ooco1nsfccEcDxzvvqHLg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHzyGbkG8PjJZRy2v41C2iJRHdO9axlMh3Z8JDFcUEoELZ8SA7mbRsep6ZlXMWSCbQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6c61c320-8ef5-4c6c-a98b-985ed6c63596",
+                            SecurityStamp = "724ce1b6-ecca-4589-950f-12d2de0972e4",
                             TwoFactorEnabled = false,
                             UserName = "JohnDoe"
                         },
@@ -293,15 +378,15 @@ namespace SchoolNetwork.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2173abdb-0d82-478b-a902-646f1775a5be",
+                            ConcurrencyStamp = "65b648b2-501f-455b-88be-94759f655268",
                             EmailConfirmed = true,
                             FirstMidName = "Jane",
                             JoinDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastName = "Doe",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEG9T7gQskuiNmlehGwMDz7Bp4PKxQR3qlXoTAxflIiFVl3hxVMDRpOZGMiRRR4Mvew==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHGPedvEn1Z4E4LZ3WvUwYj4j1/ZejVyp2gfpbE+zEuOoptAn62Oji8VHC+IYCTXsw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "51859841-1a1e-4473-a5ca-b14c7fd5ef2c",
+                            SecurityStamp = "6b4ab6df-931e-4ec6-b574-ebf18b967223",
                             TwoFactorEnabled = false,
                             UserName = "JaneDoe"
                         });
@@ -341,7 +426,7 @@ namespace SchoolNetwork.Migrations
                             ApplicationUserID = 1,
                             CourseID = 1,
                             Title = "Linear Algebra",
-                            Value = 0
+                            Value = 15
                         },
                         new
                         {
@@ -349,7 +434,7 @@ namespace SchoolNetwork.Migrations
                             ApplicationUserID = 1,
                             CourseID = 2,
                             Title = "Magnetic Force",
-                            Value = 0
+                            Value = 10
                         });
                 });
 
@@ -434,24 +519,6 @@ namespace SchoolNetwork.Migrations
                     b.ToTable("Enrollment");
                 });
 
-            modelBuilder.Entity("SchoolNetwork.Models.Grade", b =>
-                {
-                    b.Property<int>("GradeID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ApplicationUserID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ResultID")
-                        .HasColumnType("int");
-
-                    b.HasKey("GradeID");
-
-                    b.ToTable("Grade");
-                });
-
             modelBuilder.Entity("SchoolNetwork.Models.Question", b =>
                 {
                     b.Property<int>("QuestionID")
@@ -468,11 +535,56 @@ namespace SchoolNetwork.Migrations
                     b.Property<int>("Value")
                         .HasColumnType("int");
 
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
                     b.HasKey("QuestionID");
 
                     b.HasIndex("AssignmentID");
 
                     b.ToTable("Question");
+
+                    b.HasData(
+                        new
+                        {
+                            QuestionID = 1,
+                            AssignmentID = 1,
+                            Title = "Something something",
+                            Value = 5,
+                            isDeleted = false
+                        },
+                        new
+                        {
+                            QuestionID = 2,
+                            AssignmentID = 1,
+                            Title = "Something something",
+                            Value = 5,
+                            isDeleted = false
+                        },
+                        new
+                        {
+                            QuestionID = 3,
+                            AssignmentID = 1,
+                            Title = "Something something",
+                            Value = 5,
+                            isDeleted = false
+                        },
+                        new
+                        {
+                            QuestionID = 4,
+                            AssignmentID = 2,
+                            Title = "Something something",
+                            Value = 5,
+                            isDeleted = false
+                        },
+                        new
+                        {
+                            QuestionID = 5,
+                            AssignmentID = 2,
+                            Title = "Something something",
+                            Value = 5,
+                            isDeleted = false
+                        });
                 });
 
             modelBuilder.Entity("SchoolNetwork.Models.Rating", b =>
@@ -502,10 +614,10 @@ namespace SchoolNetwork.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AssignmentID")
+                    b.Property<int>("ApplicationUserID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GradeID")
+                    b.Property<int>("AssignmentID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ResultDate")
@@ -516,9 +628,9 @@ namespace SchoolNetwork.Migrations
 
                     b.HasKey("ResultID");
 
-                    b.HasIndex("AssignmentID");
+                    b.HasIndex("ApplicationUserID");
 
-                    b.HasIndex("GradeID");
+                    b.HasIndex("AssignmentID");
 
                     b.ToTable("Result");
                 });
@@ -691,23 +803,25 @@ namespace SchoolNetwork.Migrations
 
             modelBuilder.Entity("SchoolNetwork.Models.Result", b =>
                 {
+                    b.HasOne("SchoolNetwork.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Results")
+                        .HasForeignKey("ApplicationUserID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("SchoolNetwork.Models.Assignment", "Assignment")
                         .WithMany()
                         .HasForeignKey("AssignmentID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("SchoolNetwork.Models.Grade", null)
-                        .WithMany("Results")
-                        .HasForeignKey("GradeID");
                 });
 
             modelBuilder.Entity("SchoolNetwork.Models.Review", b =>
                 {
                     b.HasOne("SchoolNetwork.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("ApplicationUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("SchoolNetwork.Models.Rating", "Rating")

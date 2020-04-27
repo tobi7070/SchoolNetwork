@@ -4,51 +4,31 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>View</h1>
+<h1>Details - @Html.DisplayFor(model => model.Title)</h1>
 
 <div>
     <h4>Assignment</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Value)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Value)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Course.CourseID)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ApplicationUser)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ApplicationUser.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ApplicationUser.FullName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ApplicationUser.FullName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Course.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Course.Title)
-        </dd>
-    </dl>
+    <table>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Title)</th>
+            <td>@Html.DisplayFor(model => model.Title)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Course.Title)</th>
+            <td>@Html.DisplayFor(model => model.Course.Title)</td>
+        </tr>
+        <tr>
+            <th>Author</th>
+            <td>@Html.DisplayFor(model => model.ApplicationUser.FullName)</td>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Value)</th>
+            <td>@Html.DisplayFor(model => model.Value)</td>
+        </tr>
+    </table>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.AssignmentID">Edit</a> |
     <a asp-action="Index">Back to List</a>
+    <a asp-action="Start" asp-route-id="@Model.AssignmentID">Start</a>
 </div>

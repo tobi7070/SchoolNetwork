@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace SchoolNetwork.Models
 {
@@ -10,6 +8,7 @@ namespace SchoolNetwork.Models
         public int AssignmentID { get; set; }
         public int CourseID { get; set; }
         public int ApplicationUserID { get; set; }
+        [DisplayName("Assignment")]
         public string Title { get; set; }
         public int Value { get; set; }
 

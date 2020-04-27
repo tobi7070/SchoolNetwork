@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchoolNetwork.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SchoolNetwork.Data
 {
@@ -16,6 +14,23 @@ namespace SchoolNetwork.Data
         {
         }
 
+        public override int SaveChanges()
+        {
+            // Soft-Delete 
+            var entities = ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Deleted && e.Metadata.GetProperties()
+                .Any(x => x.Name == "IsDeleted"))
+                .ToList();
+
+            foreach (var entity in entities)
+            {
+                entity.State = EntityState.Unchanged;
+                entity.CurrentValues["IsDeleted"] = true;
+            }
+
+            return base.SaveChanges();
+        }
+
         public DbSet<Course> Courses { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Assignment> Assignments { get; set; }
@@ -23,7 +38,6 @@ namespace SchoolNetwork.Data
         public DbSet<Answer> Asnwers { get; set; }
         public DbSet<Choice> Choices { get; set; }
         public DbSet<Result> Results { get; set; }
-        public DbSet<Grade> Grades { get; set; }
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Review> Reviews { get; set; }
 
@@ -34,11 +48,10 @@ namespace SchoolNetwork.Data
             modelBuilder.Entity<Course>().ToTable("Course");
             modelBuilder.Entity<Enrollment>().ToTable("Enrollment");
             modelBuilder.Entity<Assignment>().ToTable("Assignment");
-            modelBuilder.Entity<Question>().ToTable("Question");
-            modelBuilder.Entity<Answer>().ToTable("Answer");
+            modelBuilder.Entity<Question>().ToTable("Question").Property<bool>("isDeleted");
+            modelBuilder.Entity<Answer>().ToTable("Answer").Property<bool>("isDeleted");
             modelBuilder.Entity<Choice>().ToTable("Choice");
             modelBuilder.Entity<Result>().ToTable("Result");
-            modelBuilder.Entity<Grade>().ToTable("Grade");
             modelBuilder.Entity<Rating>().ToTable("Rating");
             modelBuilder.Entity<Review>().ToTable("Review");
 
@@ -49,8 +62,10 @@ namespace SchoolNetwork.Data
             modelBuilder.Entity<Choice>().HasOne(a => a.Question).WithMany(b => b.Choices).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Choice>().HasOne(a => a.Answer).WithMany(b => b.Choices).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Result>().HasMany(a => a.Choices).WithOne(b => b.Result).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Result>().HasOne(a => a.ApplicationUser).WithMany(b => b.Results).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Rating>().HasMany(a => a.Reviews).WithOne(b => b.Rating).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Review>().HasOne(a => a.Rating).WithMany(b => b.Reviews).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Review>().HasOne(a => a.ApplicationUser).WithMany(b => b.Reviews).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ApplicationUser>(b =>
             {
@@ -98,21 +113,149 @@ namespace SchoolNetwork.Data
                     Credits = 8
                 }
             );
-            
+
             modelBuilder.Entity<Assignment>().HasData(
                 new Assignment
                 {
                     AssignmentID = 1,
                     ApplicationUserID = 1,
                     CourseID = 1,
-                    Title = "Linear Algebra"
+                    Title = "Linear Algebra",
+                    Value = 15
                 },
                 new Assignment
                 {
                     AssignmentID = 2,
                     ApplicationUserID = 1,
                     CourseID = 2,
-                    Title = "Magnetic Force"
+                    Title = "Magnetic Force",
+                    Value = 10
+                }
+            );
+
+            modelBuilder.Entity<Question>().HasData(
+                new Question
+                {
+                    QuestionID = 1,
+                    AssignmentID = 1,
+                    Title = "Something something",
+                    Value = 5,
+                    isDeleted = false
+                },
+                new Question
+                {
+                    QuestionID = 2,
+                    AssignmentID = 1,
+                    Title = "Something something",
+                    Value = 5,
+                    isDeleted = false
+                },
+                new Question
+                {
+                    QuestionID = 3,
+                    AssignmentID = 1,
+                    Title = "Something something",
+                    Value = 5,
+                    isDeleted = false
+                },
+                new Question
+                {
+                    QuestionID = 4,
+                    AssignmentID = 2,
+                    Title = "Something something",
+                    Value = 5,
+                    isDeleted = false
+                },
+                new Question
+                {
+                    QuestionID = 5,
+                    AssignmentID = 2,
+                    Title = "Something something",
+                    Value = 5,
+                    isDeleted = false
+                }
+            ); ;
+
+            modelBuilder.Entity<Answer>().HasData(
+                new Answer
+                {
+                    AnswerID = 1,
+                    QuestionID = 1,
+                    Title = "Something something",
+                    Value = true,
+                    isDeleted = false
+                },
+                new Answer
+                {
+                    AnswerID = 2,
+                    QuestionID = 1,
+                    Title = "Something something",
+                    Value = false,
+                    isDeleted = false
+                },
+                new Answer
+                {
+                    AnswerID = 3,
+                    QuestionID = 2,
+                    Title = "Something something",
+                    Value = false,
+                    isDeleted = false
+                },
+                new Answer
+                {
+                    AnswerID = 4,
+                    QuestionID = 2,
+                    Title = "Something something",
+                    Value = true,
+                    isDeleted = false
+                },
+                new Answer
+                {
+                    AnswerID = 5,
+                    QuestionID = 3,
+                    Title = "Something something",
+                    Value = true,
+                    isDeleted = false
+                },
+                new Answer
+                {
+                    AnswerID = 6,
+                    QuestionID = 3,
+                    Title = "Something something",
+                    Value = false,
+                    isDeleted = false
+                },
+                new Answer
+                {
+                    AnswerID = 7,
+                    QuestionID = 4,
+                    Title = "Something something",
+                    Value = false,
+                    isDeleted = false
+                },
+                new Answer
+                {
+                    AnswerID = 8,
+                    QuestionID = 4,
+                    Title = "Something something",
+                    Value = true,
+                    isDeleted = false
+                },
+                new Answer
+                {
+                    AnswerID = 9,
+                    QuestionID = 5,
+                    Title = "Something something",
+                    Value = true,
+                    isDeleted = false
+                },
+                new Answer
+                {
+                    AnswerID = 10,
+                    QuestionID = 5,
+                    Title = "Something something",
+                    Value = false,
+                    isDeleted = false
                 }
             );
         }

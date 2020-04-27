@@ -1,0 +1,13 @@
+﻿@model SchoolNetwork.Models.Answer
+@using SchoolNetwork.Models
+@using HtmlHelpers.BeginCollectionItemCore
+
+@using (Html.BeginCollectionItem(ViewData["Prefix"] + "Answers"))
+{
+    <li>
+        @Html.HiddenFor(m => m.AnswerID, new { @class = "id" })
+        @Html.HiddenFor(m => m.QuestionID, new { @class = "id" })
+        @Html.DisplayFor(m => m.Title)
+        <input type="checkbox" name="isChecked[@Model.AnswerID]"/>
+    </li>
+}

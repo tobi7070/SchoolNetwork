@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SchoolNetwork.Migrations
 {
-    public partial class InitialSetup : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -64,20 +64,6 @@ namespace SchoolNetwork.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Course", x => x.CourseID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Grade",
-                columns: table => new
-                {
-                    GradeID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ApplicationUserID = table.Column<int>(nullable: false),
-                    ResultID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Grade", x => x.GradeID);
                 });
 
             migrationBuilder.CreateTable(
@@ -249,7 +235,8 @@ namespace SchoolNetwork.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AssignmentID = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: true),
-                    Value = table.Column<int>(nullable: false)
+                    Value = table.Column<int>(nullable: false),
+                    isDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -288,26 +275,26 @@ namespace SchoolNetwork.Migrations
                 {
                     ResultID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ApplicationUserID = table.Column<int>(nullable: false),
                     AssignmentID = table.Column<int>(nullable: false),
                     Score = table.Column<int>(nullable: false),
-                    ResultDate = table.Column<DateTime>(nullable: false),
-                    GradeID = table.Column<int>(nullable: true)
+                    ResultDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Result", x => x.ResultID);
+                    table.ForeignKey(
+                        name: "FK_Result_AspNetUsers_ApplicationUserID",
+                        column: x => x.ApplicationUserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Result_Assignment_AssignmentID",
                         column: x => x.AssignmentID,
                         principalTable: "Assignment",
                         principalColumn: "AssignmentID",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Result_Grade_GradeID",
-                        column: x => x.GradeID,
-                        principalTable: "Grade",
-                        principalColumn: "GradeID",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -318,7 +305,8 @@ namespace SchoolNetwork.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     QuestionID = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: true),
-                    Value = table.Column<bool>(nullable: false)
+                    Value = table.Column<bool>(nullable: false),
+                    isDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -351,7 +339,7 @@ namespace SchoolNetwork.Migrations
                         column: x => x.ApplicationUserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Review_Rating_RatingID",
                         column: x => x.RatingID,
@@ -398,8 +386,8 @@ namespace SchoolNetwork.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "ce2de1cd-2c27-48b0-b716-741d68541dd2", "A role for students", "Student", "STUDENT" },
-                    { 2, "6c5d0ee2-49b9-4e52-a444-3b94cf22ea31", "A role for instructors", "Instructor", "INSTRUCTOR" }
+                    { 1, "b5e910a0-449f-47b1-9e48-81ea8af413c3", "A role for students", "Student", "STUDENT" },
+                    { 2, "2f90bf90-872b-4c90-9fa7-d3a589b198f3", "A role for instructors", "Instructor", "INSTRUCTOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -407,8 +395,8 @@ namespace SchoolNetwork.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstMidName", "JoinDate", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "668d0409-5d7d-4699-a109-84313057b6fd", null, true, "John", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAEOdnNATrN7VWaMWiDGk2Zdya8GgYMbZShsKtYw8cDAHC+Ooco1nsfccEcDxzvvqHLg==", null, false, "6c61c320-8ef5-4c6c-a98b-985ed6c63596", false, "JohnDoe" },
-                    { 2, 0, "2173abdb-0d82-478b-a902-646f1775a5be", null, true, "Jane", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAEG9T7gQskuiNmlehGwMDz7Bp4PKxQR3qlXoTAxflIiFVl3hxVMDRpOZGMiRRR4Mvew==", null, false, "51859841-1a1e-4473-a5ca-b14c7fd5ef2c", false, "JaneDoe" }
+                    { 1, 0, "1e5dbf0b-52bc-4c34-b188-2a41e0171e6d", null, true, "John", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAEHzyGbkG8PjJZRy2v41C2iJRHdO9axlMh3Z8JDFcUEoELZ8SA7mbRsep6ZlXMWSCbQ==", null, false, "724ce1b6-ecca-4589-950f-12d2de0972e4", false, "JohnDoe" },
+                    { 2, 0, "65b648b2-501f-455b-88be-94759f655268", null, true, "Jane", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAEHGPedvEn1Z4E4LZ3WvUwYj4j1/ZejVyp2gfpbE+zEuOoptAn62Oji8VHC+IYCTXsw==", null, false, "6b4ab6df-931e-4ec6-b574-ebf18b967223", false, "JaneDoe" }
                 });
 
             migrationBuilder.InsertData(
@@ -434,8 +422,37 @@ namespace SchoolNetwork.Migrations
                 columns: new[] { "AssignmentID", "ApplicationUserID", "CourseID", "Title", "Value" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, "Linear Algebra", 0 },
-                    { 2, 1, 2, "Magnetic Force", 0 }
+                    { 1, 1, 1, "Linear Algebra", 15 },
+                    { 2, 1, 2, "Magnetic Force", 10 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Question",
+                columns: new[] { "QuestionID", "AssignmentID", "Title", "Value", "isDeleted" },
+                values: new object[,]
+                {
+                    { 1, 1, "Something something", 5, false },
+                    { 2, 1, "Something something", 5, false },
+                    { 3, 1, "Something something", 5, false },
+                    { 4, 2, "Something something", 5, false },
+                    { 5, 2, "Something something", 5, false }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Answer",
+                columns: new[] { "AnswerID", "QuestionID", "Title", "Value", "isDeleted" },
+                values: new object[,]
+                {
+                    { 1, 1, "Something something", true, false },
+                    { 2, 1, "Something something", false, false },
+                    { 3, 2, "Something something", false, false },
+                    { 4, 2, "Something something", true, false },
+                    { 5, 3, "Something something", true, false },
+                    { 6, 3, "Something something", false, false },
+                    { 7, 4, "Something something", false, false },
+                    { 8, 4, "Something something", true, false },
+                    { 9, 5, "Something something", true, false },
+                    { 10, 5, "Something something", false, false }
                 });
 
             migrationBuilder.CreateIndex(
@@ -528,14 +545,14 @@ namespace SchoolNetwork.Migrations
                 column: "AssignmentID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Result_ApplicationUserID",
+                table: "Result",
+                column: "ApplicationUserID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Result_AssignmentID",
                 table: "Result",
                 column: "AssignmentID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Result_GradeID",
-                table: "Result",
-                column: "GradeID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Review_ApplicationUserID",
@@ -588,9 +605,6 @@ namespace SchoolNetwork.Migrations
 
             migrationBuilder.DropTable(
                 name: "Question");
-
-            migrationBuilder.DropTable(
-                name: "Grade");
 
             migrationBuilder.DropTable(
                 name: "Assignment");

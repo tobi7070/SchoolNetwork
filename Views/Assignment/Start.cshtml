@@ -1,0 +1,19 @@
+﻿@model SchoolNetwork.Models.Assignment
+
+@{
+    ViewData["Title"] = "Start";
+}
+
+<h1>Start</h1>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.AssignmentID, new { @class = "id" })
+    @Html.DisplayFor(m => m.Title)
+
+    @foreach (var question in Model.Questions)
+    {
+        @Html.Partial("_QuestionPreview", question)
+    }
+    <input type="submit" value="Finish" />
+}

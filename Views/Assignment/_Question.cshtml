@@ -1,0 +1,27 @@
+﻿@model SchoolNetwork.Models.Question
+@using HtmlHelpers.BeginCollectionItemCore
+
+    <div class="question">
+        @using (Html.BeginCollectionItem("Questions"))
+        {
+            @Html.HiddenFor(m => m.QuestionID, new { @class = "id" })
+            @Html.HiddenFor(m => m.isDeleted, new { @class = "id" })
+
+            @Html.HiddenFor(m => m.AssignmentID, new { @class = "id" })
+            @Html.LabelFor(m => m.Title)
+            @Html.TextBoxFor(m => m.Title)
+            @Html.LabelFor(m => m.Value)
+            @Html.TextBoxFor(m => m.Value)
+            <button class="_deleteQuestion" type="button" onclick="deleteQuestion(this)">Delete Question</button>
+            <button class="_addAnswer" type="button" onclick="addAnswer(this)">Add Answer</button>
+            <div id="answers">
+                @if (Model.Answers != null)
+                {
+                    foreach (var answer in Model.Answers)
+                    {
+                        @Html.Partial("_Answer", answer)
+                    }
+                }
+            </div>
+        }
+    </div>

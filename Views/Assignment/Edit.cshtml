@@ -1,0 +1,63 @@
+﻿@model SchoolNetwork.Models.Assignment
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.AssignmentID, new { @class = "id" })
+    @Html.LabelFor(m => m.Title)
+    @Html.TextBoxFor(m => m.Title)
+
+    @if (Model.Questions != null)
+    {
+        <div id="questions">
+            @foreach (var question in Model.Questions)
+            {
+                @Html.Partial("_Question", question)
+            }
+        </div>
+    }
+    <button id="_addQuestion" type="button" onclick="addQuestion()">Add Question</button>
+    <button type="submit"> Save</button>
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">></script>
+<script>
+    var urlQuestion = '@Url.Action("AddQuestion")';
+
+    function addQuestion() {
+        var questions = $('#questions');
+        $.get(urlQuestion, function (response) {
+            questions.append(response);
+        });
+    };
+
+    function deleteQuestion(element) {
+        // Hide and set "isDeleted" to true
+        var container = $(element).closest('.question');
+        $(container).children(':nth-child(3)').attr('value', true);
+        container.attr('style', 'display: none');
+    };
+
+    var urlAnswer = '@Url.Action("AddAnswer")';
+
+    function addAnswer(element) {
+        var question = $(element).closest('.question');
+        var prefix = question.children(':first-child').attr("value");
+        $.get(urlAnswer, { questionPrefix: prefix }, function (response) {
+            console.log(response);
+            question.append(response);
+        });
+    }
+
+    function deleteAnswer(element) {
+        // Hide and set "isDeleted" to true
+        var container = $(element).closest('.answer');
+        $(container).children(':nth-child(3)').attr('value', true);
+        container.attr('style', 'display: none');
+    }
+</script>

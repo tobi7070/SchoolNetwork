@@ -1,0 +1,15 @@
+﻿@model SchoolNetwork.Models.Question
+@using HtmlHelpers.BeginCollectionItemCore
+
+@using (Html.BeginCollectionItem("Questions"))
+{
+    @Html.HiddenFor(m => m.QuestionID, new { @class = "id" })
+    @Html.HiddenFor(m => m.AssignmentID, new { @class = "id" })
+    <h3>@Html.DisplayFor(m => m.Title)</h3>
+    <ul>
+    @foreach (var answer in Model.Answers)
+    {
+        @Html.Partial("_AnswerPreview", answer)
+    }
+    </ul>
+}

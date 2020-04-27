@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SchoolNetwork.Models;
@@ -42,6 +41,7 @@ namespace SchoolNetwork.Controllers
                     LastName = model.LastName,
                     Email = model.Email,
                     UserName = model.UserName,
+                    JoinDate = System.DateTime.Now,
                 };
 
                 var regsiterResult = await _userManager.CreateAsync(user, model.Password);

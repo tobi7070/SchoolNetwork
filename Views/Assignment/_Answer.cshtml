@@ -1,0 +1,18 @@
+﻿@model SchoolNetwork.Models.Answer
+@using SchoolNetwork.Models
+@using HtmlHelpers.BeginCollectionItemCore
+
+<div class="answer">
+    @using (Html.BeginCollectionItem(ViewData["Prefix"] + ".Answers"))
+    {
+        @Html.HiddenFor(m => m.AnswerID, new { @class = "id" })
+        @Html.HiddenFor(m => m.isDeleted, new { @class= "id" })
+
+        @Html.HiddenFor(m => m.QuestionID, new { @class = "id" })
+        @Html.LabelFor(m => m.Title)
+        @Html.TextBoxFor(m => m.Title)
+        @Html.LabelFor(m => m.Value)
+        @Html.CheckBoxFor(m => m.Value)
+        <button class="_deleteAnswer" type="button" onclick="deleteAnswer(this)">Delete Answer</button>
+    }
+</div>

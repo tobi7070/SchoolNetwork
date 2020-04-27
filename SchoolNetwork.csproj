@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,9 +30,15 @@
     <Compile Remove="Migrations\20200423091011_TestSetup.Designer.cs" />
     <Compile Remove="Migrations\20200423091337_TestSetup.cs" />
     <Compile Remove="Migrations\20200423091337_TestSetup.Designer.cs" />
+    <Compile Remove="Migrations\20200425085222_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200425085222_InitialCreate.Designer.cs" />
+    <Compile Remove="Migrations\20200427084133_InitialCreate.cs" />
+    <Compile Remove="Migrations\20200427084133_InitialCreate.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BeginCollectionItemCore" Version="1.0.8" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.3" />
