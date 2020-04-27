@@ -2,7 +2,7 @@
 @using SchoolNetwork.Models
 @using HtmlHelpers.BeginCollectionItemCore
 
-@using (Html.BeginCollectionItem(ViewData["Prefix"] + "Answers"))
+@using (Html.BeginCollectionItem("Answers"))
 {
     <li>
         @Html.HiddenFor(m => m.AnswerID, new { @class = "id" })

@@ -75,38 +75,67 @@ namespace SchoolNetwork.Controllers
             return View(assignment);
         }
 
+        /*
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Start([Bind("AssignmentID")] Result result, [Bind("QuestionID, AnswerID")] List<Choice> choices)
+        public async Task<IActionResult> Start([Bind("AssignmentID")] Assignment assignment, List<Question> questions, List<Answer> answers, bool[] isChecked)
         {
-            result.ResultDate = DateTime.Now;
-            result.Choices = choices;
-            result.ApplicationUserID = await GetCurrentUserId();
-            
-            foreach (Choice c in choices)
-            {
-                // if (isSelected)
-                //{
-                    _context.Add(c);
+            var result = new Result();
 
-                    if (c.Answer.Value)
+            result.AssignmentID = assignment.AssignmentID;
+            result.ResultDate = DateTime.Now;
+            result.ApplicationUserID = await GetCurrentUserId();
+
+            TempData["Check"] = questions.Count() + "," + answers.Count() + "," + isChecked.Length;
+
+            var choices = new List<Choice>();
+
+            foreach (Question q in questions)
+            {
+                foreach (Answer a in answers)
+                {
+                    if (a.QuestionID == q.QuestionID)
                     {
-                        result.Score += c.Question.Value;
+                        if (isChecked[a.AnswerID] == true)
+                        {
+                            choices.Add(new Choice
+                            {
+                                QuestionID = q.QuestionID,
+                                AnswerID = a.AnswerID
+                            });
+
+                            if (a.Value)
+                            {
+                                result.Score += q.Value;
+                            }
+                        }
+                        else
+                        {
+                            return View(assignment);
+                        }
                     }
-                // }
+                }
             }
 
-            _context.Add(result);
+            foreach (var c in choices)
+            {
+                _context.Add(c);
+            }
 
+            result.Choices = choices;
+
+            _context.Add(result);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Finish");
         }
+        */
 
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Finish()
         {
+            ViewBag.Check = TempData["Check"];
             return View();
         }
 
