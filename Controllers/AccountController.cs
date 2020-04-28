@@ -1,8 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SchoolNetwork.Data;
 using SchoolNetwork.Models;
+using SchoolNetwork.Models.ViewModels;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
@@ -10,13 +15,15 @@ namespace SchoolNetwork.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         public List<AuthenticationScheme> ExternalLogins { get; private set; }
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -130,6 +137,37 @@ namespace SchoolNetwork.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Results()
+        {
+            var user = await GetCurrentUserId();
+
+            var results = await _context.Results.Where(c => c.ApplicationUserID == user)
+                .Include(a => a.Assignment)
+                    .ThenInclude(a => a.Course)
+                .AsNoTracking()
+                .ToListAsync();
+
+            var userResultViewModel = new UserResultViewModel();
+
+            foreach (var r in results)
+            {
+                userResultViewModel.Results.Add(r);
+                userResultViewModel.Assignments.Add(r.Assignment);
+            }
+
+            return View(userResultViewModel);
+        }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+
+        [HttpGet]
+        public async Task<int> GetCurrentUserId()
+        {
+            ApplicationUser usr = await GetCurrentUserAsync();
+            return usr.Id;
         }
     }
 }

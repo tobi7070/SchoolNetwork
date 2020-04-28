@@ -24,9 +24,13 @@ namespace SchoolNetwork.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var courses = _context.Assignments
+                .Include(c => c.ApplicationUser)
+                .Include(c => c.Course)
+                .AsNoTracking();
+            return View(await courses.ToListAsync());
         }
 
         [HttpGet]
@@ -155,6 +159,11 @@ namespace SchoolNetwork.Controllers
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ResultID == id);
 
+            if (result.ApplicationUserID != await GetCurrentUserId())
+            {
+                return BadRequest();
+            }
+
             var assignment = await _context.Assignments
                 .Include(c => c.Questions)
                     .ThenInclude(d => d.Answers)
@@ -205,11 +214,11 @@ namespace SchoolNetwork.Controllers
                 assignment.CourseID = 1;
                 assignment.ApplicationUserID = await GetCurrentUserId();
                 assignment.Questions = questions;
-                _context.Add(assignment);
 
                 foreach (Question q in questions)
                 {
                     _context.Add(q);
+                    assignment.Value += q.Value;
 
                     foreach (Answer a in answers)
                     {
@@ -218,9 +227,9 @@ namespace SchoolNetwork.Controllers
                             q.Answers.Add(a);
                         }
                     }
-
                 }
 
+                _context.Add(assignment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -266,11 +275,6 @@ namespace SchoolNetwork.Controllers
                 // if exist: update else add
                 // if deleted and exist: delete else ignore
                 // add course options
-
-                if (assignment.ApplicationUserID != await GetCurrentUserId())
-                {
-                    return BadRequest();
-                }
 
                 assignment.CourseID = 1;
                 assignment.Questions = questions;
