@@ -386,8 +386,8 @@ namespace SchoolNetwork.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "b5e910a0-449f-47b1-9e48-81ea8af413c3", "A role for students", "Student", "STUDENT" },
-                    { 2, "2f90bf90-872b-4c90-9fa7-d3a589b198f3", "A role for instructors", "Instructor", "INSTRUCTOR" }
+                    { 1, "28369c8e-08cc-4bdf-92b1-6876b9cf0ddb", "A role for students", "Student", "STUDENT" },
+                    { 2, "33182d7f-f9ac-4cac-91e0-f1e0b1968e27", "A role for instructors", "Instructor", "INSTRUCTOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -395,8 +395,8 @@ namespace SchoolNetwork.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstMidName", "JoinDate", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "1e5dbf0b-52bc-4c34-b188-2a41e0171e6d", null, true, "John", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAEHzyGbkG8PjJZRy2v41C2iJRHdO9axlMh3Z8JDFcUEoELZ8SA7mbRsep6ZlXMWSCbQ==", null, false, "724ce1b6-ecca-4589-950f-12d2de0972e4", false, "JohnDoe" },
-                    { 2, 0, "65b648b2-501f-455b-88be-94759f655268", null, true, "Jane", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAEHGPedvEn1Z4E4LZ3WvUwYj4j1/ZejVyp2gfpbE+zEuOoptAn62Oji8VHC+IYCTXsw==", null, false, "6b4ab6df-931e-4ec6-b574-ebf18b967223", false, "JaneDoe" }
+                    { 1, 0, "d6264ddc-3568-41b6-860b-18fd0d0fdc29", null, true, "John", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAELqUiuEMuDn68YcZhlkBpgPCkITb5N+MXnsjyfrsM5qdRZGTVmToBCESUTXgStvQBA==", null, false, "bf0fce36-7e74-4828-8e2a-4e75578f5ffd", false, "JohnDoe" },
+                    { 2, 0, "e3a2ffab-e867-4920-852a-21fbeefa8124", null, true, "Jane", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAEF5Nv2hhzXz7K2B+4y6j5SVXaeTy79f8S9Z/uYfN3jmOk/yo9LVKwcVFwyXJNJq59A==", null, false, "0f409143-1d4b-4fc0-80ac-0264fb423ae4", false, "JaneDoe" }
                 });
 
             migrationBuilder.InsertData(

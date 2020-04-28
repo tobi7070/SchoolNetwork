@@ -35,7 +35,7 @@ namespace SchoolNetwork.Data
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Question> Questions { get; set; }
-        public DbSet<Answer> Asnwers { get; set; }
+        public DbSet<Answer> Answers { get; set; }
         public DbSet<Choice> Choices { get; set; }
         public DbSet<Result> Results { get; set; }
         public DbSet<Rating> Ratings { get; set; }

@@ -267,7 +267,7 @@ namespace SchoolNetwork.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "b5e910a0-449f-47b1-9e48-81ea8af413c3",
+                            ConcurrencyStamp = "28369c8e-08cc-4bdf-92b1-6876b9cf0ddb",
                             Description = "A role for students",
                             Name = "Student",
                             NormalizedName = "STUDENT"
@@ -275,7 +275,7 @@ namespace SchoolNetwork.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "2f90bf90-872b-4c90-9fa7-d3a589b198f3",
+                            ConcurrencyStamp = "33182d7f-f9ac-4cac-91e0-f1e0b1968e27",
                             Description = "A role for instructors",
                             Name = "Instructor",
                             NormalizedName = "INSTRUCTOR"
@@ -362,15 +362,15 @@ namespace SchoolNetwork.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1e5dbf0b-52bc-4c34-b188-2a41e0171e6d",
+                            ConcurrencyStamp = "d6264ddc-3568-41b6-860b-18fd0d0fdc29",
                             EmailConfirmed = true,
                             FirstMidName = "John",
                             JoinDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastName = "Doe",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEHzyGbkG8PjJZRy2v41C2iJRHdO9axlMh3Z8JDFcUEoELZ8SA7mbRsep6ZlXMWSCbQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELqUiuEMuDn68YcZhlkBpgPCkITb5N+MXnsjyfrsM5qdRZGTVmToBCESUTXgStvQBA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "724ce1b6-ecca-4589-950f-12d2de0972e4",
+                            SecurityStamp = "bf0fce36-7e74-4828-8e2a-4e75578f5ffd",
                             TwoFactorEnabled = false,
                             UserName = "JohnDoe"
                         },
@@ -378,15 +378,15 @@ namespace SchoolNetwork.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "65b648b2-501f-455b-88be-94759f655268",
+                            ConcurrencyStamp = "e3a2ffab-e867-4920-852a-21fbeefa8124",
                             EmailConfirmed = true,
                             FirstMidName = "Jane",
                             JoinDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastName = "Doe",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEHGPedvEn1Z4E4LZ3WvUwYj4j1/ZejVyp2gfpbE+zEuOoptAn62Oji8VHC+IYCTXsw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF5Nv2hhzXz7K2B+4y6j5SVXaeTy79f8S9Z/uYfN3jmOk/yo9LVKwcVFwyXJNJq59A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6b4ab6df-931e-4ec6-b574-ebf18b967223",
+                            SecurityStamp = "0f409143-1d4b-4fc0-80ac-0264fb423ae4",
                             TwoFactorEnabled = false,
                             UserName = "JaneDoe"
                         });

@@ -1,19 +1,39 @@
-﻿@model SchoolNetwork.Models.Assignment
+﻿@model SchoolNetwork.Models.ViewModels.AssignmentViewModel
 
 @{
     ViewData["Title"] = "Start";
 }
 
-<h1>Start</h1>
-
 @using (Html.BeginForm())
 {
-    @Html.HiddenFor(m => m.AssignmentID, new { @class = "id" })
-    @Html.DisplayFor(m => m.Title)
-
-    @foreach (var question in Model.Questions)
+    @Html.HiddenFor(m => m.Assignment.AssignmentID)
+    <h1>
+        @Html.DisplayFor(m => m.Assignment.Title)
+    </h1>
+    for (int i = 0; i < Model.Questions.Count; i++)
     {
-        @Html.Partial("_QuestionPreview", question)
+        @Html.HiddenFor(m => m.Questions[i].QuestionID)
+        @Html.DisplayFor(m => m.Questions[i].Title)
+        <ul>
+            @foreach (var a in Model.Questions[i].Answers)
+            {
+                <li>
+                    @for (int j = 0; j < Model.Choices.Count; j++)
+                    {
+                        if (a.AnswerID == Model.Choices[j].AnswerID)
+                        {
+                            <p>
+                                @a.Title
+                                @Html.HiddenFor(m => m.Choices[j].AnswerID)
+                                @Html.CheckBoxFor(m => m.Choices[j].IsSelected)
+                            </p>
+                        }
+                    }
+
+                </li>
+            }
+        </ul>
     }
-    <input type="submit" value="Finish" />
+    <input type="submit" />
 }
+

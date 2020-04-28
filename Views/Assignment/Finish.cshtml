@@ -1,8 +1,75 @@
-﻿
+﻿@model SchoolNetwork.Models.ViewModels.ResultViewModel
+
+
 @{
     ViewData["Title"] = "Finish";
 }
 
 <h1>Finish</h1>
 
-@ViewBag.Check
+@Model.Result.ResultDate
+
+<h3>Title:</h3>
+@Html.DisplayFor(m => m.Assignment.Title)
+
+<h3>Score:</h3>
+@Html.DisplayFor(m => m.Result.Score)
+
+<hr />
+<a asp-area="" asp-controller="Assignment" asp-action="Start" asp-route-id="@Model.Assignment.AssignmentID">Try Again</a>
+<a asp-area="" asp-controller="Home" asp-action="Index">Go Home</a>
+<hr />
+
+<h3>Overview</h3>
+
+@for (int i = 0; i < Model.Questions.Count; i++)
+{
+    @Html.DisplayFor(m => m.Questions[i].Title)
+    <ul>
+        @for (int h = 0; h < Model.Answers.Count; h++)
+        {
+            if (Model.Answers[h].QuestionID == Model.Questions[i].QuestionID)
+            {
+                var choice = false;
+                for (int j = 0; j < Model.Choices.Count; j++)
+                {
+                    if (Model.Answers[h].AnswerID == Model.Choices[j].AnswerID)
+                    {
+                        choice = true;
+                    }
+                }
+
+
+                var correct = false;
+                if (Model.Answers[h].Value)
+                {
+                    correct = true;
+                }
+
+                var color = "black";
+
+                @if (correct == true)
+                {
+                    color = "green";
+                }
+                else if (choice == true && correct != true)
+                {
+                    color = "red";
+                }
+                else
+                {
+                    color = "black";
+                }
+
+                var flag = "";
+
+                @if (choice == true)
+                {
+                    flag = "* Your Choice";
+                }
+
+                <li><p style="color: @color">@Html.DisplayFor(m => m.Answers[h].Title) @flag</p></li>
+            }
+        }
+    </ul>
+}

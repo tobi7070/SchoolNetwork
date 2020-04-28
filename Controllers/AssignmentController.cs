@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolNetwork.Data;
 using SchoolNetwork.Models;
+using SchoolNetwork.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +59,7 @@ namespace SchoolNetwork.Controllers
             {
                 return NotFound();
             }
-
+            
             var assignment = await _context.Assignments
                 .Include(a => a.ApplicationUser)
                 .Include(b => b.Course)
@@ -66,77 +67,121 @@ namespace SchoolNetwork.Controllers
                     .ThenInclude(d => d.Answers)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.AssignmentID == id);
-
+           
             if (assignment == null)
             {
                 return NotFound();
             }
 
-            return View(assignment);
+            var assignmentViewModel = new AssignmentViewModel();
+
+            assignmentViewModel.Assignment = assignment;
+
+            foreach (var question in assignment.Questions)
+            {
+                assignmentViewModel.Questions.Add(question);
+
+                foreach (var answer in question.Answers)
+                {
+                    assignmentViewModel.Choices.Add(new ChoiceViewModel
+                    {
+                        AnswerID = answer.AnswerID,
+                    });
+                }
+            }
+
+            return View(assignmentViewModel);
         }
 
-        /*
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Start([Bind("AssignmentID")] Assignment assignment, List<Question> questions, List<Answer> answers, bool[] isChecked)
+        public async Task<IActionResult> Start(AssignmentViewModel assignmentViewModel)
         {
-            var result = new Result();
 
-            result.AssignmentID = assignment.AssignmentID;
+            // if multiple correct answers do something else...
+
+            var result = new Result();
+            var choices = new List<Choice>();
+
+            result.AssignmentID = assignmentViewModel.Assignment.AssignmentID;
             result.ResultDate = DateTime.Now;
             result.ApplicationUserID = await GetCurrentUserId();
 
-            TempData["Check"] = questions.Count() + "," + answers.Count() + "," + isChecked.Length;
-
-            var choices = new List<Choice>();
-
-            foreach (Question q in questions)
+            foreach (var c in assignmentViewModel.Choices)
             {
-                foreach (Answer a in answers)
+                if (c.IsSelected)
                 {
-                    if (a.QuestionID == q.QuestionID)
-                    {
-                        if (isChecked[a.AnswerID] == true)
-                        {
-                            choices.Add(new Choice
-                            {
-                                QuestionID = q.QuestionID,
-                                AnswerID = a.AnswerID
-                            });
+                    var tempAnswer = _context.Answers.Find(c.AnswerID);
+                    var tempQuestion = _context.Questions.Find(tempAnswer.QuestionID);
 
-                            if (a.Value)
-                            {
-                                result.Score += q.Value;
-                            }
-                        }
-                        else
-                        {
-                            return View(assignment);
-                        }
+                    choices.Add(new Choice
+                    {
+                        ResultID = result.ResultID,
+                        AnswerID = c.AnswerID,
+                        QuestionID = tempAnswer.QuestionID
+                    });
+
+                    if (tempAnswer.Value)
+                    {
+                        result.Score += tempQuestion.Value;
                     }
                 }
             }
+
+            result.Choices = choices;
 
             foreach (var c in choices)
             {
                 _context.Add(c);
             }
 
-            result.Choices = choices;
-
             _context.Add(result);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Finish");
+            return Redirect("/Assignment/Finish/" + result.ResultID);
         }
-        */
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Finish()
+        public async Task<IActionResult> Finish(int? id)
         {
-            ViewBag.Check = TempData["Check"];
-            return View();
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var result = await _context.Results
+                .Include(a => a.Choices)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.ResultID == id);
+
+            var assignment = await _context.Assignments
+                .Include(c => c.Questions)
+                    .ThenInclude(d => d.Answers)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.AssignmentID == result.AssignmentID);
+
+            var resultViewModel = new ResultViewModel();
+
+            resultViewModel.Result = result;
+            resultViewModel.Assignment = assignment;
+
+            foreach (var question in assignment.Questions)
+            {
+                resultViewModel.Questions.Add(question);
+
+                foreach (var answer in question.Answers)
+                {
+                    resultViewModel.Answers.Add(answer);
+                }
+            }
+
+            foreach (var choice in result.Choices)
+            {
+                resultViewModel.Choices.Add(choice);
+            }
+
+            return View(resultViewModel);
         }
 
         [Authorize(Roles = "Instructor")]
