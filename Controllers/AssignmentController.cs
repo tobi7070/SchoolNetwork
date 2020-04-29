@@ -44,6 +44,7 @@ namespace SchoolNetwork.Controllers
             var assignment = await _context.Assignments
                 .Include(a => a.ApplicationUser)
                 .Include(b => b.Course)
+                .Include(c => c.Reviews)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.AssignmentID == id);
 
@@ -268,36 +269,98 @@ namespace SchoolNetwork.Controllers
 
         [Authorize(Roles = "Instructor")]
         [HttpPost]
-        public async Task<IActionResult> Edit([Bind("AssignmentID, Title, Value")]  Assignment assignment, [Bind("QuestionID, Title, Value, isDeleted")]  List<Question> questions, [Bind("AnswerID, Title, Value, isDeleted")]  List<Answer> answers)
+        public async Task<IActionResult> Edit(Assignment assignment, List<Question> questions, List<Answer> answers)
         {
             if (ModelState.IsValid)
             {
-                // if exist: update else add
-                // if deleted and exist: delete else ignore
                 // add course options
+                // also update assignment value
 
-                assignment.CourseID = 1;
-                assignment.Questions = questions;
+                var updatedAssignment = _context.Assignments.Find(assignment.AssignmentID);
+                updatedAssignment.Questions = questions;
                 _context.Add(assignment);
 
-                foreach (Question q in questions)
+                foreach (Question question in questions)
                 {
-                    _context.Add(q);
+                    var questionExists = await _context.Questions.FindAsync(question.QuestionID);
 
-                    foreach (Answer a in answers)
+                    question.AssignmentID = assignment.AssignmentID;
+
+                    if (questionExists == null)
                     {
-                        if (q.QuestionID == a.QuestionID)
+                        if (question.isDeleted != true)
                         {
-                            q.Answers.Add(a);
+                            _context.Add(question);
+                        }
+                    } 
+                    else
+                    {
+                        if (question.isDeleted != true)
+                        {
+                            _context.Update(question);
+                        }
+                        else
+                        {
+                            _context.Remove(question);
                         }
                     }
 
+                    foreach (Answer answer in answers)
+                    {
+                        if (question.QuestionID == answer.QuestionID)
+                        {
+
+                            var answerExists = await _context.Answers.FindAsync(answer.AnswerID);
+
+                            answer.QuestionID = question.QuestionID;
+
+                            if (answerExists == null)
+                            {
+                                if (answer.isDeleted != true)
+                                {
+                                    _context.Add(answer);
+                                }
+                            }
+                            else
+                            {
+                                if (answer.isDeleted != true)
+                                {
+                                    _context.Update(answer);
+                                }
+                                else
+                                {
+                                    _context.Remove(answer);
+                                }
+                            }
+                        }
+                    }
                 }
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(assignment);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Review(int id)
+        {
+            ViewBag.AssignmentID = id;
+            ViewBag.ApplicationUserID = await GetCurrentUserId();
+
+            return View(new Review());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Review([Bind("ReviewID, AssignmentID, ApplicationUserID, Title, Description, Score")] Review review)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(review);
+                await _context.SaveChangesAsync();
+            }
+
+            return Redirect("/Assignment/Details/" + review.AssignmentID);
         }
 
         public PartialViewResult AddQuestion()

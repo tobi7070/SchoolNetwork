@@ -20,6 +20,5 @@ namespace SchoolNetwork.Controllers
         {
             return View();
         }
-
     }
 }

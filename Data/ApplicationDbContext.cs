@@ -38,7 +38,6 @@ namespace SchoolNetwork.Data
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Choice> Choices { get; set; }
         public DbSet<Result> Results { get; set; }
-        public DbSet<Rating> Ratings { get; set; }
         public DbSet<Review> Reviews { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -52,10 +51,10 @@ namespace SchoolNetwork.Data
             modelBuilder.Entity<Answer>().ToTable("Answer").Property<bool>("isDeleted");
             modelBuilder.Entity<Choice>().ToTable("Choice");
             modelBuilder.Entity<Result>().ToTable("Result");
-            modelBuilder.Entity<Rating>().ToTable("Rating");
             modelBuilder.Entity<Review>().ToTable("Review");
 
             modelBuilder.Entity<Assignment>().HasMany(a => a.Questions).WithOne(b => b.Assignment).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Assignment>().HasMany(a => a.Reviews).WithOne(b => b.Assignment).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Question>().HasMany(a => a.Answers).WithOne(b => b.Question).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Answer>().HasOne(a => a.Question).WithMany(b => b.Answers).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Choice>().HasOne(a => a.Result).WithMany(b => b.Choices).OnDelete(DeleteBehavior.Restrict);
@@ -63,8 +62,7 @@ namespace SchoolNetwork.Data
             modelBuilder.Entity<Choice>().HasOne(a => a.Answer).WithMany(b => b.Choices).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Result>().HasMany(a => a.Choices).WithOne(b => b.Result).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Result>().HasOne(a => a.ApplicationUser).WithMany(b => b.Results).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Rating>().HasMany(a => a.Reviews).WithOne(b => b.Rating).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Review>().HasOne(a => a.Rating).WithMany(b => b.Reviews).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Review>().HasOne(a => a.Assignment).WithMany(b => b.Reviews).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Review>().HasOne(a => a.ApplicationUser).WithMany(b => b.Reviews).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ApplicationUser>(b =>

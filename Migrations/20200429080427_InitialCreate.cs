@@ -250,26 +250,6 @@ namespace SchoolNetwork.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Rating",
-                columns: table => new
-                {
-                    RatingID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AssignmentID = table.Column<int>(nullable: false),
-                    Score = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rating", x => x.RatingID);
-                    table.ForeignKey(
-                        name: "FK_Rating_Assignment_AssignmentID",
-                        column: x => x.AssignmentID,
-                        principalTable: "Assignment",
-                        principalColumn: "AssignmentID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Result",
                 columns: table => new
                 {
@@ -298,6 +278,35 @@ namespace SchoolNetwork.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Review",
+                columns: table => new
+                {
+                    ReviewID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AssignmentID = table.Column<int>(nullable: false),
+                    ApplicationUserID = table.Column<int>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Score = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Review", x => x.ReviewID);
+                    table.ForeignKey(
+                        name: "FK_Review_AspNetUsers_ApplicationUserID",
+                        column: x => x.ApplicationUserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Review_Assignment_AssignmentID",
+                        column: x => x.AssignmentID,
+                        principalTable: "Assignment",
+                        principalColumn: "AssignmentID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Answer",
                 columns: table => new
                 {
@@ -316,35 +325,6 @@ namespace SchoolNetwork.Migrations
                         column: x => x.QuestionID,
                         principalTable: "Question",
                         principalColumn: "QuestionID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Review",
-                columns: table => new
-                {
-                    ReviewID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RatingID = table.Column<int>(nullable: false),
-                    ApplicationUserID = table.Column<int>(nullable: false),
-                    Title = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Score = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Review", x => x.ReviewID);
-                    table.ForeignKey(
-                        name: "FK_Review_AspNetUsers_ApplicationUserID",
-                        column: x => x.ApplicationUserID,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Review_Rating_RatingID",
-                        column: x => x.RatingID,
-                        principalTable: "Rating",
-                        principalColumn: "RatingID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -386,8 +366,8 @@ namespace SchoolNetwork.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "28369c8e-08cc-4bdf-92b1-6876b9cf0ddb", "A role for students", "Student", "STUDENT" },
-                    { 2, "33182d7f-f9ac-4cac-91e0-f1e0b1968e27", "A role for instructors", "Instructor", "INSTRUCTOR" }
+                    { 1, "b227fea6-bea6-4dc6-8702-e58258b53798", "A role for students", "Student", "STUDENT" },
+                    { 2, "cd8ece26-06cd-42e2-a86f-5b6d1678a153", "A role for instructors", "Instructor", "INSTRUCTOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -395,8 +375,8 @@ namespace SchoolNetwork.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstMidName", "JoinDate", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "d6264ddc-3568-41b6-860b-18fd0d0fdc29", null, true, "John", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAELqUiuEMuDn68YcZhlkBpgPCkITb5N+MXnsjyfrsM5qdRZGTVmToBCESUTXgStvQBA==", null, false, "bf0fce36-7e74-4828-8e2a-4e75578f5ffd", false, "JohnDoe" },
-                    { 2, 0, "e3a2ffab-e867-4920-852a-21fbeefa8124", null, true, "Jane", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAEF5Nv2hhzXz7K2B+4y6j5SVXaeTy79f8S9Z/uYfN3jmOk/yo9LVKwcVFwyXJNJq59A==", null, false, "0f409143-1d4b-4fc0-80ac-0264fb423ae4", false, "JaneDoe" }
+                    { 1, 0, "181a2361-7358-4375-8ebb-ee94566d695f", null, true, "John", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAEIe32EUJyqysfpDoZm2bf2nNMMiuElCi4N85J5AKOE6MXqk0AzjSMNggpP3ilxHk3A==", null, false, "6e0aa888-6517-4b4b-af64-f6d05e80715e", false, "JohnDoe" },
+                    { 2, 0, "561e100c-1113-424c-bc8b-925d49a8dd7b", null, true, "Jane", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", false, null, null, null, "AQAAAAEAACcQAAAAEA/0wE2yb9VeEvMpFxlOCGynM7Jc/xXvphfKR5kR3J4ev20ZtGStloTvw8NYfAuemQ==", null, false, "9485d893-9359-4380-adf8-510d13bda5c7", false, "JaneDoe" }
                 });
 
             migrationBuilder.InsertData(
@@ -540,11 +520,6 @@ namespace SchoolNetwork.Migrations
                 column: "AssignmentID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rating_AssignmentID",
-                table: "Rating",
-                column: "AssignmentID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Result_ApplicationUserID",
                 table: "Result",
                 column: "ApplicationUserID");
@@ -560,9 +535,9 @@ namespace SchoolNetwork.Migrations
                 column: "ApplicationUserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Review_RatingID",
+                name: "IX_Review_AssignmentID",
                 table: "Review",
-                column: "RatingID");
+                column: "AssignmentID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -599,9 +574,6 @@ namespace SchoolNetwork.Migrations
 
             migrationBuilder.DropTable(
                 name: "Result");
-
-            migrationBuilder.DropTable(
-                name: "Rating");
 
             migrationBuilder.DropTable(
                 name: "Question");

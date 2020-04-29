@@ -9,6 +9,7 @@
 @using (Html.BeginForm())
 {
     @Html.HiddenFor(m => m.AssignmentID, new { @class = "id" })
+    @Html.HiddenFor(m => m.ApplicationUserID, new { @class = "id" })
     @Html.LabelFor(m => m.Title)
     @Html.TextBoxFor(m => m.Title)
 

@@ -267,7 +267,7 @@ namespace SchoolNetwork.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "28369c8e-08cc-4bdf-92b1-6876b9cf0ddb",
+                            ConcurrencyStamp = "b227fea6-bea6-4dc6-8702-e58258b53798",
                             Description = "A role for students",
                             Name = "Student",
                             NormalizedName = "STUDENT"
@@ -275,7 +275,7 @@ namespace SchoolNetwork.Migrations
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "33182d7f-f9ac-4cac-91e0-f1e0b1968e27",
+                            ConcurrencyStamp = "cd8ece26-06cd-42e2-a86f-5b6d1678a153",
                             Description = "A role for instructors",
                             Name = "Instructor",
                             NormalizedName = "INSTRUCTOR"
@@ -362,15 +362,15 @@ namespace SchoolNetwork.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d6264ddc-3568-41b6-860b-18fd0d0fdc29",
+                            ConcurrencyStamp = "181a2361-7358-4375-8ebb-ee94566d695f",
                             EmailConfirmed = true,
                             FirstMidName = "John",
                             JoinDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastName = "Doe",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAELqUiuEMuDn68YcZhlkBpgPCkITb5N+MXnsjyfrsM5qdRZGTVmToBCESUTXgStvQBA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIe32EUJyqysfpDoZm2bf2nNMMiuElCi4N85J5AKOE6MXqk0AzjSMNggpP3ilxHk3A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bf0fce36-7e74-4828-8e2a-4e75578f5ffd",
+                            SecurityStamp = "6e0aa888-6517-4b4b-af64-f6d05e80715e",
                             TwoFactorEnabled = false,
                             UserName = "JohnDoe"
                         },
@@ -378,15 +378,15 @@ namespace SchoolNetwork.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e3a2ffab-e867-4920-852a-21fbeefa8124",
+                            ConcurrencyStamp = "561e100c-1113-424c-bc8b-925d49a8dd7b",
                             EmailConfirmed = true,
                             FirstMidName = "Jane",
                             JoinDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             LastName = "Doe",
                             LockoutEnabled = false,
-                            PasswordHash = "AQAAAAEAACcQAAAAEF5Nv2hhzXz7K2B+4y6j5SVXaeTy79f8S9Z/uYfN3jmOk/yo9LVKwcVFwyXJNJq59A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA/0wE2yb9VeEvMpFxlOCGynM7Jc/xXvphfKR5kR3J4ev20ZtGStloTvw8NYfAuemQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0f409143-1d4b-4fc0-80ac-0264fb423ae4",
+                            SecurityStamp = "9485d893-9359-4380-adf8-510d13bda5c7",
                             TwoFactorEnabled = false,
                             UserName = "JaneDoe"
                         });
@@ -587,26 +587,6 @@ namespace SchoolNetwork.Migrations
                         });
                 });
 
-            modelBuilder.Entity("SchoolNetwork.Models.Rating", b =>
-                {
-                    b.Property<int>("RatingID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AssignmentID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
-
-                    b.HasKey("RatingID");
-
-                    b.HasIndex("AssignmentID");
-
-                    b.ToTable("Rating");
-                });
-
             modelBuilder.Entity("SchoolNetwork.Models.Result", b =>
                 {
                     b.Property<int>("ResultID")
@@ -645,11 +625,11 @@ namespace SchoolNetwork.Migrations
                     b.Property<int>("ApplicationUserID")
                         .HasColumnType("int");
 
+                    b.Property<int>("AssignmentID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RatingID")
-                        .HasColumnType("int");
 
                     b.Property<int?>("Score")
                         .HasColumnType("int");
@@ -661,7 +641,7 @@ namespace SchoolNetwork.Migrations
 
                     b.HasIndex("ApplicationUserID");
 
-                    b.HasIndex("RatingID");
+                    b.HasIndex("AssignmentID");
 
                     b.ToTable("Review");
                 });
@@ -792,15 +772,6 @@ namespace SchoolNetwork.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SchoolNetwork.Models.Rating", b =>
-                {
-                    b.HasOne("SchoolNetwork.Models.Assignment", "Assignment")
-                        .WithMany()
-                        .HasForeignKey("AssignmentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("SchoolNetwork.Models.Result", b =>
                 {
                     b.HasOne("SchoolNetwork.Models.ApplicationUser", "ApplicationUser")
@@ -824,9 +795,9 @@ namespace SchoolNetwork.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SchoolNetwork.Models.Rating", "Rating")
+                    b.HasOne("SchoolNetwork.Models.Assignment", "Assignment")
                         .WithMany("Reviews")
-                        .HasForeignKey("RatingID")
+                        .HasForeignKey("AssignmentID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

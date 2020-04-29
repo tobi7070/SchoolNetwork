@@ -145,6 +145,7 @@ namespace SchoolNetwork.Controllers
             var user = await GetCurrentUserId();
 
             var results = await _context.Results.Where(c => c.ApplicationUserID == user)
+                .OrderByDescending(m => m.ResultDate)
                 .Include(a => a.Assignment)
                     .ThenInclude(a => a.Course)
                 .AsNoTracking()

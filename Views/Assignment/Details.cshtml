@@ -32,3 +32,16 @@
     <a asp-action="Index">Back to List</a>
     <a asp-action="Start" asp-route-id="@Model.AssignmentID">Start</a>
 </div>
+
+<h3>Reviews</h3>
+
+<div id="reviews">
+    @foreach (var r in Model.Reviews)
+    {
+        <div class="review">
+            <h5>@r.Title</h5>
+            <p>@r.Score</p>
+            <p>@r.Description</p>
+        </div>
+    }
+</div>

@@ -13,6 +13,7 @@ namespace SchoolNetwork.Models
         public int Value { get; set; }
 
         public ICollection<Question> Questions { get; set; }
+        public ICollection<Review> Reviews { get; set; }
         public Course Course { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
     }
