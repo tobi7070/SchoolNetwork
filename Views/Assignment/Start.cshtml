@@ -12,27 +12,31 @@
     </h1>
     for (int i = 0; i < Model.Questions.Count; i++)
     {
-        @Html.HiddenFor(m => m.Questions[i].QuestionID)
-        @Html.DisplayFor(m => m.Questions[i].Title)
-        <ul>
-            @foreach (var a in Model.Questions[i].Answers)
-            {
-                <li>
-                    @for (int j = 0; j < Model.Choices.Count; j++)
-                    {
-                        if (a.AnswerID == Model.Choices[j].AnswerID)
-                        {
-                            <p>
-                                @a.Title
-                                @Html.HiddenFor(m => m.Choices[j].AnswerID)
-                                @Html.CheckBoxFor(m => m.Choices[j].IsSelected)
-                            </p>
-                        }
-                    }
+        <div class="question-preview">
+            @Html.HiddenFor(m => m.Questions[i].QuestionID)
+            @Html.DisplayFor(m => m.Questions[i].Title)
+            <ul>
+                @foreach (var a in Model.Questions[i].Answers)
+                {
+                    <div class="answer-preview">
+                        <li>
+                            @for (int j = 0; j < Model.Choices.Count; j++)
+                            {
+                                if (a.AnswerID == Model.Choices[j].AnswerID)
+                                {
+                                    <p>
+                                        @a.Title
+                                        @Html.HiddenFor(m => m.Choices[j].AnswerID)
+                                        @Html.CheckBoxFor(m => m.Choices[j].IsSelected)
+                                    </p>
+                                }
+                            }
 
-                </li>
-            }
-        </ul>
+                        </li>
+                    </div>
+                }
+            </ul>
+        </div>
     }
     <input type="submit" />
 }

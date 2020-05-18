@@ -3,12 +3,16 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>Login</h1>
+<div class="account-form">
+    <h1>Login</h1>
 
-<form asp-area="" asp-controller="Account" asp-action="Login" method="post">
-    <input type="text" name="username" value="" />
-    <input type="text" name="password" value="" />
-    <button type="submit">Login</button>
-</form>
+    <form asp-area="" asp-controller="Account" asp-action="Login" method="post">
+        <label for="username">Username</label>
+        <input type="text" name="username" value="" />
+        <label for="password">Password</label>
+        <input type="password" name="password" value="" />
+        <button type="submit">Login</button>
+    </form>
+</div>
 
 @ViewBag.Message
